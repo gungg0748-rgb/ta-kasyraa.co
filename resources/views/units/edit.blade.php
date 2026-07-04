@@ -12,7 +12,7 @@
         <form method="POST" action="{{ route('units.update', $unit) }}" class="space-y-5">
             @csrf @method('PUT')
             <div>
-                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Satuan</label>
+                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Satuan (Name)</label>
                 <input type="text" name="name" value="{{ old('name', $unit->name) }}"
                        class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                 @error('name') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror

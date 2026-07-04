@@ -33,7 +33,7 @@
             <h3 class="font-manrope font-bold text-blue-900 mb-5 text-sm uppercase tracking-widest">Informasi Pembelian</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Supplier</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Supplier (Supplier)</label>
                     <select x-model="supplierId" name="supplier_id"
                             class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                         <option value="">— Pilih Supplier —</option>
@@ -44,13 +44,13 @@
                     @error('supplier_id') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Tanggal</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Tanggal (Date)</label>
                     <input type="date" x-model="date" name="date" value="{{ date('Y-m-d') }}"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                     @error('date') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Catatan <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Catatan (Notes) <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
                     <input type="text" name="notes"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">
                     <p class="text-[10px] text-slate-400 mt-1">Catatan tambahan...</p>

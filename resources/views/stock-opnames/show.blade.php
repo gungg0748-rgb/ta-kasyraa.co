@@ -74,11 +74,11 @@
         <table class="w-full text-left">
             <thead>
                 <tr class="bg-surface-container-low/50">
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Produk</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Varian</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-center">Stok Sistem</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-center">Stok Fisik</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-center">Selisih</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Produk (Product)</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Varian (Variant)</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-center">Stok Sistem (System)</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-center">Stok Fisik (Physical)</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-center">Selisih (Diff)</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100/50">

@@ -12,7 +12,7 @@
         <form method="POST" action="{{ route('categories.store') }}" class="space-y-5">
             @csrf
             <div>
-                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Kategori</label>
+                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Kategori (Name)</label>
                 <input type="text" name="name" value="{{ old('name') }}"
                        class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20"
                        required>
@@ -20,7 +20,7 @@
                 @error('name') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
             </div>
             <div>
-                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Deskripsi <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
+                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Deskripsi (Description) <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
                 <textarea name="description" rows="3"
                           class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">{{ old('description') }}</textarea>
                 <p class="text-[10px] text-slate-400 mt-1">Deskripsi singkat kategori...</p>

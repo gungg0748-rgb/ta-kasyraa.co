@@ -14,7 +14,7 @@
 
             <div class="grid grid-cols-2 gap-5">
                 <div class="col-span-2">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Produk</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Produk (Name)</label>
                     <input type="text" name="name" value="{{ old('name') }}"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20"
                            required>
@@ -23,7 +23,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Kategori</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Kategori (Category)</label>
                     <select name="category_id"
                             class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                         <option value="">— Pilih Kategori —</option>
@@ -35,7 +35,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Satuan</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Satuan (Unit)</label>
                     <select name="unit_id"
                             class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                         <option value="">— Pilih Satuan —</option>
@@ -47,14 +47,14 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Harga Jual (Rp)</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Harga Jual (Price) (Rp)</label>
                     <input type="number" name="price" value="{{ old('price', 0) }}" min="0" step="100"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                     @error('price') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Reorder Level</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Level Restock (Reorder Level)</label>
                     <input type="number" name="reorder_level" value="{{ old('reorder_level', 5) }}" min="0"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                     <p class="text-[10px] text-slate-400 mt-1">Notifikasi dikirim saat stok ≤ nilai ini</p>
@@ -62,14 +62,14 @@
                 </div>
 
                 <div class="col-span-2">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Deskripsi <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Deskripsi (Description) <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
                     <textarea name="description" rows="3"
                               class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">{{ old('description') }}</textarea>
                     <p class="text-[10px] text-slate-400 mt-1">Deskripsi produk...</p>
                 </div>
 
                 <div class="col-span-2">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Foto Produk <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Foto Produk (Image) <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
                     <input type="file" name="image" accept="image/*"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20 p-2">
                     <p class="text-[10px] text-slate-400 mt-1">Maks. 2MB. Format: JPG, PNG, WEBP.</p>

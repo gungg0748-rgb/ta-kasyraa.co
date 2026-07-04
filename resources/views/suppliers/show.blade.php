@@ -38,9 +38,9 @@
             <table class="w-full text-left">
                 <thead>
                     <tr class="bg-surface-container-low/50">
-                        <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Tanggal</th>
+                        <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Tanggal (Date)</th>
                         <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Total</th>
-                        <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Catatan</th>
+                        <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Catatan (Notes)</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100/50">

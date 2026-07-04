@@ -58,7 +58,7 @@
             <thead>
                 <tr class="bg-surface-container-low/50">
                     <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Invoice</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Tanggal</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Tanggal (Date)</th>
                     <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Supplier</th>
                     <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-center">Item</th>
                     <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-right">Total</th>

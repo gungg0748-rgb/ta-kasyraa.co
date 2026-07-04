@@ -38,10 +38,10 @@
             <thead>
                 <tr class="bg-surface-container-low/50">
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Invoice</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Tanggal</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Kasir</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Tanggal (Date)</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Kasir (Cashier)</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Total</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi (Actions)</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100/50">

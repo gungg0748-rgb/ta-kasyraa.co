@@ -14,14 +14,14 @@
 
             <div class="grid grid-cols-2 gap-5">
                 <div class="col-span-2">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Produk</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Produk (Name)</label>
                     <input type="text" name="name" value="{{ old('name', $product->name) }}"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                     @error('name') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Kategori</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Kategori (Category)</label>
                     <select name="category_id"
                             class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                         @foreach($categories as $cat)
@@ -32,7 +32,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Satuan</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Satuan (Unit)</label>
                     <select name="unit_id"
                             class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                         @foreach($units as $unit)
@@ -43,27 +43,27 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Harga Jual (Rp)</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Harga Jual (Price) (Rp)</label>
                     <input type="number" name="price" value="{{ old('price', $product->price) }}" min="0" step="100"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                     @error('price') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Reorder Level</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Level Restock (Reorder Level)</label>
                     <input type="number" name="reorder_level" value="{{ old('reorder_level', $product->reorder_level) }}" min="0"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                     @error('reorder_level') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="col-span-2">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Deskripsi</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Deskripsi (Description)</label>
                     <textarea name="description" rows="3"
                               class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">{{ old('description', $product->description) }}</textarea>
                 </div>
 
                 <div class="col-span-2">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Foto Produk <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Foto Produk (Image) <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
                     @if($product->image)
                         <img src="{{ Storage::url($product->image) }}" alt="Foto produk" class="w-24 h-24 object-cover rounded-xl mb-2">
                         <p class="text-[10px] text-slate-400 mb-2">Upload foto baru untuk mengganti foto saat ini.</p>

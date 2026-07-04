@@ -29,7 +29,7 @@
             <h3 class="font-manrope font-bold text-blue-900 mb-5 text-sm uppercase tracking-widest">Informasi Return</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div class="md:col-span-2">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Referensi Pembelian</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Referensi Pembelian (Purchase Ref)</label>
                     <select x-model="selectedPurchaseId" @change="onPurchaseChange()"
                             class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                         <option value="">— Pilih Transaksi Pembelian —</option>
@@ -39,12 +39,12 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Tanggal Return</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Tanggal Return (Date)</label>
                     <input type="date" x-model="date" value="{{ date('Y-m-d') }}"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                 </div>
                 <div class="md:col-span-3">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Catatan <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Catatan (Notes) <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
                     <input type="text" x-model="notes"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">
                     <p class="text-[10px] text-slate-400 mt-1">Catatan return...</p>

@@ -83,10 +83,10 @@
             <table class="w-full text-left">
                 <thead>
                     <tr class="bg-surface-container-low/20">
-                        <th class="px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Varian</th>
-                        <th class="px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Warna</th>
-                        <th class="px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Ukuran</th>
-                        <th class="px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 text-center">Stok</th>
+                        <th class="px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Varian (Model)</th>
+                        <th class="px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Warna (Color)</th>
+                        <th class="px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Ukuran (Size)</th>
+                        <th class="px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 text-center">Stok (Stock)</th>
                         <th class="px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 text-center">Min.</th>
                         <th class="px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Status</th>
                     </tr>

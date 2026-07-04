@@ -47,13 +47,13 @@
         <table class="w-full text-left">
             <thead>
                 <tr class="bg-surface-container-low/50">
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Produk</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Produk (Product)</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Barcode</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Kategori</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Harga</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Varian</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Total Stok</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Kategori (Category)</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Harga (Price)</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Varian (Variants)</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Total Stok (Stock)</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi (Actions)</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100/50">

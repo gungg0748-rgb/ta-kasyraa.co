@@ -14,7 +14,7 @@
                 @csrf
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Lengkap</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Lengkap (Name)</label>
                     <input type="text" name="name" value="{{ old('name') }}"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium
                                   focus:ring-2 focus:ring-primary/20 transition-all" required>
@@ -32,7 +32,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Role</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Role (Peran)</label>
                     <select name="role"
                             class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium
                                    focus:ring-2 focus:ring-primary/20 transition-all" required>
@@ -45,7 +45,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Password</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Password (Password)</label>
                     <input type="password" name="password"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium
                                   focus:ring-2 focus:ring-primary/20 transition-all" required>
@@ -54,7 +54,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Konfirmasi Password</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Konfirmasi Password (Confirm)</label>
                     <input type="password" name="password_confirmation"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium
                                   focus:ring-2 focus:ring-primary/20 transition-all" required>

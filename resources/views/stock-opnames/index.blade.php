@@ -47,11 +47,11 @@
             <thead>
                 <tr class="bg-surface-container-low/50">
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">#</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Tanggal</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Dicatat oleh</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Catatan</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Tanggal (Date)</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Dicatat oleh (User)</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Catatan (Notes)</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Status</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi (Actions)</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100/50">

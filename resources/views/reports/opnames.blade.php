@@ -41,7 +41,7 @@
         @endif
     </form>
 
-    @foreach($opnames as $opname)
+    @forelse($opnames as $opname)
     <div class="bg-surface-container-lowest rounded-2xl editorial-shadow overflow-hidden mb-6">
         <div class="px-8 py-5 border-b border-slate-100 flex items-center justify-between">
             <div>
@@ -62,11 +62,11 @@
         <table class="w-full text-left">
             <thead>
                 <tr class="bg-surface-container-low/30">
-                    <th class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Produk</th>
-                    <th class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Varian</th>
-                    <th class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-center">Stok Sistem</th>
-                    <th class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-center">Stok Fisik</th>
-                    <th class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-center">Selisih</th>
+                    <th class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Produk (Product)</th>
+                    <th class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Varian (Variant)</th>
+                    <th class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-center">Stok Sistem (System)</th>
+                    <th class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-center">Stok Fisik (Physical)</th>
+                    <th class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-center">Selisih (Diff)</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100/50">

@@ -25,7 +25,7 @@
                 <p class="text-2xl font-manrope font-black text-blue-900">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
             </div>
             <div>
-                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Reorder Level</p>
+                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Level Restock</p>
                 <p class="text-sm font-bold text-blue-900">{{ $product->reorder_level }} {{ $product->unit->name }}</p>
             </div>
             <div>
@@ -62,11 +62,11 @@
                 <thead>
                     <tr class="bg-surface-container-low/50">
                         <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Model</th>
-                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Warna</th>
-                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Ukuran</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Warna (Color)</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Ukuran (Size)</th>
                         <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Barcode</th>
-                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Stok</th>
-                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Stok (Stock)</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi (Actions)</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100/50" id="variant-list">
@@ -114,19 +114,19 @@
                     @csrf
                     <div class="grid grid-cols-3 gap-4 mb-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1.5">Model <span class="font-normal text-slate-400">(opsional)</span></label>
+                            <label class="block text-xs font-bold text-slate-600 mb-1.5">Model (Model) <span class="font-normal text-slate-400">(opsional)</span></label>
                             <input type="text" name="model"
                                    class="w-full bg-white border border-slate-200 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20 px-3 py-2.5">
                             <p class="text-[10px] text-slate-400 mt-1">Contoh: Slim Fit, Oversize</p>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1.5">Warna <span class="font-normal text-slate-400">(opsional)</span></label>
+                            <label class="block text-xs font-bold text-slate-600 mb-1.5">Warna (Color) <span class="font-normal text-slate-400">(opsional)</span></label>
                             <input type="text" name="color"
                                    class="w-full bg-white border border-slate-200 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20 px-3 py-2.5">
                             <p class="text-[10px] text-slate-400 mt-1">Contoh: Hitam, Putih, Navy</p>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1.5">Ukuran <span class="font-normal text-slate-400">(opsional)</span></label>
+                            <label class="block text-xs font-bold text-slate-600 mb-1.5">Ukuran (Size) <span class="font-normal text-slate-400">(opsional)</span></label>
                             <input type="text" name="size"
                                    class="w-full bg-white border border-slate-200 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20 px-3 py-2.5">
                             <p class="text-[10px] text-slate-400 mt-1">Contoh: S, M, L, XL, XXL</p>

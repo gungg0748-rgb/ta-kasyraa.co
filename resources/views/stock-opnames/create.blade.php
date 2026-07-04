@@ -26,13 +26,13 @@
     <div class="bg-surface-container-lowest rounded-2xl editorial-shadow p-8 mb-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div>
-                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Tanggal Opname</label>
+                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Tanggal Opname (Date)</label>
                 <input type="date" id="opname-date"
                        value="{{ isset($stockOpname) ? $stockOpname->date->format('Y-m-d') : date('Y-m-d') }}"
                        class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">
             </div>
             <div class="md:col-span-2">
-                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Catatan <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
+                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Catatan (Notes) <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
                 <input type="text" id="opname-notes"
                        value="{{ isset($stockOpname) ? $stockOpname->notes : '' }}"
                        class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">

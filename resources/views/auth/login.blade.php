@@ -19,7 +19,7 @@
         @csrf
 
         <div>
-            <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Email</label>
+            <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Email (Email)</label>
             <input id="email" type="email" name="email" value="{{ old('email') }}"
                    class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium
                           focus:ring-2 focus:ring-primary/20 transition-all"
@@ -29,7 +29,7 @@
         </div>
 
         <div>
-            <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Password</label>
+            <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Password (Password)</label>
             <input id="password" type="password" name="password"
                    class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium
                           focus:ring-2 focus:ring-primary/20 transition-all"

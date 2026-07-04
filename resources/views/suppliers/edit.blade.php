@@ -12,7 +12,7 @@
         <form method="POST" action="{{ route('suppliers.update', $supplier) }}" class="space-y-5">
             @csrf @method('PUT')
             <div>
-                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Supplier</label>
+                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Nama Supplier (Name)</label>
                 <input type="text" name="name" value="{{ old('name', $supplier->name) }}"
                        class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                 @error('name') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
@@ -25,14 +25,14 @@
                     @error('email') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Telepon</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Telepon (Phone)</label>
                     <input type="text" name="phone" value="{{ old('phone', $supplier->phone) }}"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">
                     @error('phone') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                 </div>
             </div>
             <div>
-                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Alamat</label>
+                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Alamat (Address)</label>
                 <textarea name="address" rows="3"
                           class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">{{ old('address', $supplier->address) }}</textarea>
                 @error('address') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror

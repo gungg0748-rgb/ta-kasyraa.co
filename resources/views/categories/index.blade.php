@@ -20,10 +20,10 @@
             <thead>
                 <tr class="bg-surface-container-low/50">
                     <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">#</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Nama</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Deskripsi</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Produk</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi</th>
+                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Nama (Name)</th>
+                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Deskripsi (Description)</th>
+                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Produk (Products)</th>
+                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi (Actions)</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100/50">
