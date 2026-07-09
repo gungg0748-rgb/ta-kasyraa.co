@@ -11,34 +11,61 @@ use Illuminate\Support\Facades\Cache;
 class ScannerController extends Controller
 {
     /**
-     * Generate token deterministik: HMAC(date+user_id, APP_KEY).
-     * Reset otomatis tiap tengah malam, tidak perlu disimpan di DB/cache.
+     * Ambil session nonce aktif milik user (penanda sesi scanner).
+     * Null berarti tidak ada sesi aktif (belum "Sambungkan" atau sudah "Putus").
      */
-    private function makeToken(int $userId): string
+    private function currentSession(int $userId): ?string
     {
-        // Generate token deterministik: HMAC(date+user_id, APP_KEY).
-        $date    = now()->format('Y-m-d');
-        $secret  = config('app.key');
-        return hash_hmac('sha256', "{$date}:{$userId}", $secret);
+        return Cache::get("scanner:session:{$userId}");
     }
 
     /**
-     * Validasi token dan cocokkan dengan user aktif yang ada.
+     * Buat session nonce baru untuk user — dipanggil saat "Sambungkan".
+     * Membuat tiap koneksi menghasilkan token/QR yang benar-benar baru.
+     */
+    private function rotateSession(int $userId): string
+    {
+        $session = bin2hex(random_bytes(8));
+        Cache::put("scanner:session:{$userId}", $session, now()->secondsUntilEndOfDay());
+        return $session;
+    }
+
+    /**
+     * Hapus session nonce — "Putus" mematikan link/QR lama sepenuhnya.
+     */
+    private function clearSession(int $userId): void
+    {
+        Cache::forget("scanner:session:{$userId}");
+    }
+
+    /**
+     * Generate token: HMAC(date + user_id + session, APP_KEY).
+     * Terikat ke session nonce, jadi token dari sesi lama otomatis mati
+     * begitu sesi diganti (Sambungkan lagi) atau dihapus (Putus).
+     */
+    private function makeToken(int $userId, string $session): string
+    {
+        $date   = now()->format('Y-m-d');
+        $secret = config('app.key');
+        return hash_hmac('sha256', "{$date}:{$userId}:{$session}", $secret);
+    }
+
+    /**
+     * Validasi token: cocokkan dengan user aktif memakai session nonce terkini.
+     * Token dari sesi lama tidak akan cocok → dianggap kadaluarsa.
      */
     private function resolveToken(string $token): ?array
     {
-        // Validasi token dan cocokkan dengan user aktif yang ada.
-        // Cek apakah token sudah di-invalidate (user logout)
-        if (Cache::has("scanner:invalidated:{$token}")) {
-            return null;
-        }
-
         $users = \App\Models\User::whereIn('role', ['admin', 'kasir', 'gudang'])
             ->where('is_active', true)
             ->get(['id', 'name']);
 
         foreach ($users as $user) {
-            if (hash_equals($this->makeToken($user->id), $token)) {
+            $session = $this->currentSession($user->id);
+            if (!$session) {
+                continue; // tidak ada sesi aktif untuk user ini
+            }
+            if (hash_equals($this->makeToken($user->id, $session), $token)) {
                 return ['id' => $user->id, 'name' => $user->name];
             }
         }
@@ -46,19 +73,17 @@ class ScannerController extends Controller
     }
 
     /**
-     * PC: generate token dan URL untuk ditampilkan sebagai QR code.
+     * PC: mulai sesi baru — buat session nonce baru, token, dan URL QR.
+     * Tiap klik "Sambungkan" menghasilkan sesi baru; token/QR lama mati.
      */
     public function generateToken(Request $request)
     {
-        // PC: generate token dan URL untuk ditampilkan sebagai QR code.
-        $user  = auth()->user();
-        $token = $this->makeToken($user->id);
+        $user    = auth()->user();
+        $session = $this->rotateSession($user->id); // sesi baru tiap "Sambungkan"
+        $token   = $this->makeToken($user->id, $session);
 
-        // Hapus flag invalidasi kalau user login lagi
-        Cache::forget("scanner:invalidated:{$token}");
-
-        $base  = rtrim(config('app.url'), '/');
-        $url   = $base . '/scanner/' . $token;
+        $base = rtrim(config('app.url'), '/');
+        $url  = $base . '/scanner/' . $token;
 
         return response()->json(['token' => $token, 'url' => $url]);
     }
@@ -184,12 +209,18 @@ class ScannerController extends Controller
     }
 
     /**
-     * PC: putus koneksi scanner dari sisi PC.
+     * PC: putus koneksi & reset sesi scanner sepenuhnya.
+     * Session nonce dihapus sehingga link/QR lama langsung tidak valid —
+     * HP tidak bisa re-connect via heartbeat; harus scan QR baru.
      */
     public function disconnect(Request $request, string $token)
     {
-        // PC: putus koneksi scanner dari sisi PC.
+        $user = $this->resolveToken($token);
+        if ($user) {
+            $this->clearSession($user['id']);
+        }
         Cache::forget("scanner:connected:{$token}");
+        Cache::forget("scanner:scan:{$token}");
         return response()->json(['ok' => true]);
     }
 
