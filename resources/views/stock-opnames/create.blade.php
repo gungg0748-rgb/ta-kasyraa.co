@@ -141,6 +141,7 @@
                 @endphp
                 <tr class="hover:bg-blue-50/20 transition-colors {{ $hasDiff ? 'bg-amber-50/20' : '' }}"
                     data-barcode="{{ $variant->barcode }}"
+                    data-product-barcode="{{ $product->barcode }}"
                     id="opname-row-{{ $variant->id }}">
                     <td class="px-6 py-3 text-sm text-blue-900 font-medium">
                         {{ collect([$variant->model, $variant->color, $variant->size])->filter()->implode(' · ') ?: 'Default' }}
@@ -277,8 +278,11 @@ function opnameScanBarcode(code) {
     okEl.classList.add('hidden');
     if (!raw || raw.startsWith('http')) return;
 
-    // Cari baris yang punya barcode cocok
-    const row = document.querySelector(`tr[data-barcode="${raw}"]`);
+    // Cari baris cocok barcode varian, lalu fallback ke barcode produk (baris pertama)
+    let row = document.querySelector(`tr[data-barcode="${raw}"]`);
+    if (!row) {
+        row = document.querySelector(`tr[data-product-barcode="${raw}"]`);
+    }
 
     if (!row) {
         errEl.textContent = 'Barcode tidak ditemukan di daftar opname.';

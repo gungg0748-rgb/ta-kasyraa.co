@@ -20,6 +20,7 @@
                     'price'          => $product->price,
                     'stock'          => $variant->stock,
                     'barcode'        => $variant->barcode,        // barcode varian
+                    'product_barcode'=> $product->barcode,        // barcode produk (fallback)
                 ];
             }
         }
@@ -267,10 +268,16 @@
                 if (!raw) return;
                 if (raw.startsWith('http://') || raw.startsWith('https://')) return;
 
-                // Hanya terima barcode varian (exact match)
+                // Cocokkan barcode varian dulu (exact match)
                 let v = this.variants.find(v => v.barcode === raw);
 
-                if (!v) { this.barcodeError = 'Barcode varian tidak ditemukan.'; return; }
+                // Fallback: barcode produk → ambil varian pertama (prioritaskan yang ada stok)
+                if (!v) {
+                    const byProduct = this.variants.filter(x => x.product_barcode && x.product_barcode === raw);
+                    v = byProduct.find(x => x.stock > 0) || byProduct[0] || null;
+                }
+
+                if (!v) { this.barcodeError = 'Barcode tidak ditemukan.'; return; }
                 if (v.stock <= 0) { this.barcodeError = 'Stok varian ini habis.'; return; }
 
                 const existing = this.items.find(i => i.variant_id == v.id);

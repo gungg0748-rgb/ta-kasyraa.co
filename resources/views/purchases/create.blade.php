@@ -21,6 +21,7 @@
                     'label'          => $label,
                     'price'          => $product->price,
                     'barcode'        => $variant->barcode,
+                    'product_barcode'=> $product->barcode,        // barcode produk (fallback)
                 ];
             }
         }
@@ -263,11 +264,13 @@
                 const raw = code ?? this.barcodeInput.trim();
                 if (!raw || raw.startsWith('http')) return;
 
+                // Cocokkan barcode varian dulu, lalu fallback ke barcode produk
                 let v = this.variants.find(v => v.barcode === raw);
+                if (!v) {
+                    v = this.variants.find(v => v.product_barcode && v.product_barcode === raw) || null;
+                }
 
-                console.log('scan result:', raw, v); // debug
-
-                if (!v) { this.barcodeError = 'Barcode varian tidak ditemukan.'; return; }
+                if (!v) { this.barcodeError = 'Barcode tidak ditemukan.'; return; }
 
                 const existing = this.items.find(i => i.variant_id == v.id);
                 if (existing) { existing.qty++; this.calcTotal(); }
