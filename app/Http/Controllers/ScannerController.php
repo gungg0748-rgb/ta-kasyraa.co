@@ -99,13 +99,22 @@ class ScannerController extends Controller
         // Update heartbeat scanner
         $this->registerScanner($token, $user['name']);
 
-        // Hanya barcode varian yang valid untuk alur scanner transaksi.
+        // Coba cari varian dulu, lalu fallback ke produk.
+        $barcode = trim($request->barcode);
         $variant = \App\Models\ProductVariant::with('product')
-            ->where('barcode', trim($request->barcode))
+            ->where('barcode', $barcode)
             ->first();
 
+        if (!$variant) {
+            // Fallback: cari produk by barcode, ambil varian pertama
+            $product = \App\Models\Product::where('barcode', $barcode)->first();
+            if ($product && $product->variants()->count() > 0) {
+                $variant = $product->variants()->first();
+            }
+        }
+
         if ($variant) {
-            // Simpan barcode valid untuk di-poll PC.
+            // Simpan barcode varian valid untuk di-poll PC.
             Cache::put("scanner:scan:{$token}", $variant->barcode, now()->addMinutes(5));
 
             $productName = $variant->product->name . ($variant->color || $variant->size
