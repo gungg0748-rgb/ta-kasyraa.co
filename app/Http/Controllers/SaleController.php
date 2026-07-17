@@ -22,7 +22,9 @@ class SaleController extends Controller
     public function index(Request $request)
     {
         // Menampilkan daftar penjualan dengan filter tanggal.
-        $query = Sale::with(['user'])->latest('date');
+        // latest('id') sebagai tie-break: kolom date bertipe DATE (tanpa jam),
+        // jadi transaksi di tanggal sama harus diurut id desc agar terbaru di atas.
+        $query = Sale::with(['user'])->latest('date')->latest('id');
 
         if ($request->filled('from')) {
             $query->whereDate('date', '>=', $request->from);

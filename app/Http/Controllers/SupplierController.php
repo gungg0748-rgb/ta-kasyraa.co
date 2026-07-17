@@ -16,7 +16,7 @@ class SupplierController extends Controller
     public function index()
     {
         // Menampilkan daftar semua supplier beserta jumlah pembeliannya.
-        $suppliers = Supplier::withCount('purchases')->orderBy('name')->paginate(15)->withQueryString();
+        $suppliers = Supplier::withCount('purchases')->latest('id')->paginate(15)->withQueryString();
         return view('suppliers.index', compact('suppliers'));
     }
 

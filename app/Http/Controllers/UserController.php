@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         // Menampilkan daftar semua user kecuali yang sedang login.
-        $users = User::where('id', '!=', auth()->id())->orderBy('name')->paginate(15)->withQueryString();
+        $users = User::where('id', '!=', auth()->id())->latest('id')->paginate(15)->withQueryString();
         return view('users.index', compact('users'));
     }
 

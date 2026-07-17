@@ -21,7 +21,9 @@ class StockReturnController extends Controller
     public function index(Request $request)
     {
         // Menampilkan daftar retur stok dengan filter supplier dan tanggal.
-        $query = StockReturn::with(['supplier', 'purchase', 'user'])->latest('date');
+        // latest('id') sebagai tie-break: kolom date bertipe DATE (tanpa jam),
+        // jadi transaksi di tanggal sama harus diurut id desc agar terbaru di atas.
+        $query = StockReturn::with(['supplier', 'purchase', 'user'])->latest('date')->latest('id');
 
         if ($request->filled('supplier')) {
             $query->where('supplier_id', $request->supplier);

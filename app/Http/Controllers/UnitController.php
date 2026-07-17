@@ -16,7 +16,7 @@ class UnitController extends Controller
     public function index()
     {
         // Menampilkan daftar satuan produk.
-        $units = Unit::withCount('products')->orderBy('name')->get();
+        $units = Unit::withCount('products')->latest('id')->get();
         return view('units.index', compact('units'));
     }
 

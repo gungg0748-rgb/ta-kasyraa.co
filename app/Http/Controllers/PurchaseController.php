@@ -21,7 +21,9 @@ class PurchaseController extends Controller
     public function index(Request $request)
     {
         // Menampilkan daftar pembelian dengan filter supplier dan tanggal.
-        $query = Purchase::with(['supplier', 'user'])->latest('date');
+        // latest('id') sebagai tie-break: kolom date bertipe DATE (tanpa jam),
+        // jadi transaksi di tanggal sama harus diurut id desc agar terbaru di atas.
+        $query = Purchase::with(['supplier', 'user'])->latest('date')->latest('id');
 
         if ($request->filled('supplier')) {
             $query->where('supplier_id', $request->supplier);

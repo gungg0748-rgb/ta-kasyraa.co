@@ -30,8 +30,8 @@ class ProductController extends Controller
             $query->where('category_id', $request->category);
         }
 
-        $products    = $query->orderBy('name')->paginate(15)->withQueryString();
-        $categories  = Category::orderBy('name')->get();
+        $products    = $query->latest('id')->paginate(15)->withQueryString(); // produk terbaru di atas
+        $categories  = Category::orderBy('name')->get(); // dropdown filter tetap alfabetis
 
         return view('products.index', compact('products', 'categories'));
     }

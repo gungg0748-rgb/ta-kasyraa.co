@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         // Menampilkan daftar semua kategori beserta jumlah produknya.
-        $categories = Category::withCount('products')->orderBy('name')->paginate(15)->withQueryString();
+        $categories = Category::withCount('products')->latest('id')->paginate(15)->withQueryString();
         return view('categories.index', compact('categories'));
     }
 
