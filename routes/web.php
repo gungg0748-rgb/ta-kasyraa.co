@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin,kasir')->group(function () {
         Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show']);
         Route::get('sales/barcode-lookup', [SaleController::class, 'lookupBarcode'])->name('sales.barcode-lookup');
+        Route::get('sales/{sale}/receipt', [SaleController::class, 'receipt'])->name('sales.receipt');
     });
 
     // Scanner HP — semua role yang login bisa pakai

@@ -199,9 +199,36 @@
                 </div>
             </div>
 
-            <div class="px-8 py-5 bg-surface-container-low/30 border-t border-slate-100 flex justify-between items-center">
-                <span class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Total Penjualan</span>
-                <span class="text-2xl font-manrope font-black text-blue-900" x-text="'Rp ' + formatNum(total)"></span>
+            <div class="px-8 py-5 bg-surface-container-low/30 border-t border-slate-100 space-y-5">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Total Penjualan</span>
+                    <span class="text-2xl font-manrope font-black text-blue-900" x-text="'Rp ' + formatNum(total)"></span>
+                </div>
+
+                {{-- Pembayaran kasir --}}
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-slate-100">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Metode Bayar</label>
+                        <select x-model="paymentMethod" @change="onMethodChange()"
+                                class="w-full bg-surface-container-lowest border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">
+                            <option value="tunai">Tunai</option>
+                            <option value="transfer">Transfer</option>
+                            <option value="qris">QRIS</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Uang Bayar</label>
+                        <input type="number" min="0" x-model.number="paid" :disabled="paymentMethod !== 'tunai'"
+                               id="paid-input" placeholder="0"
+                               class="w-full bg-surface-container-lowest border-0 rounded-xl text-sm text-blue-900 font-bold focus:ring-2 focus:ring-primary/20 disabled:opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Kembalian</label>
+                        <p class="font-manrope font-black text-emerald-600 text-lg py-2" x-text="'Rp ' + formatNum(changeAmount())"></p>
+                    </div>
+                </div>
+                <p x-show="paymentMethod === 'tunai' && items.length > 0 && (Number(paid) || 0) < total"
+                   class="text-rose-500 text-xs font-semibold">Uang bayar kurang dari total penjualan.</p>
             </div>
         </div>
 
@@ -238,6 +265,8 @@
             date: '{{ date('Y-m-d') }}',
             items: [],
             total: 0,
+            paymentMethod: 'tunai',
+            paid: 0,
             barcodeInput: '',
             barcodeError: '',
 
@@ -363,6 +392,14 @@
 
             calcTotal() {
                 this.total = this.items.reduce((sum, i) => sum + (i.qty * i.price), 0);
+                if (this.paymentMethod !== 'tunai') this.paid = this.total; // non-tunai: bayar = total
+            },
+            onMethodChange() {
+                // Non-tunai dianggap dibayar pas; tunai reset agar kasir mengetik nominal.
+                this.paid = this.paymentMethod !== 'tunai' ? this.total : 0;
+            },
+            changeAmount() {
+                return Math.max(0, (Number(this.paid) || 0) - this.total);
             },
 
             formatNum(n) {
@@ -370,6 +407,11 @@
             },
 
             submitForm() {
+                const paidVal = this.paymentMethod === 'tunai' ? (Number(this.paid) || 0) : this.total;
+                if (this.paymentMethod === 'tunai' && paidVal < this.total) {
+                    alert('Uang bayar kurang dari total penjualan.');
+                    return;
+                }
                 const form   = document.getElementById('sale-form');
                 const fields = document.getElementById('sale-fields');
                 fields.innerHTML = '';
@@ -380,6 +422,9 @@
                 };
                 add('date', document.querySelector('[name=date]').value);
                 add('notes', document.querySelector('[name=notes]').value);
+                add('payment_method', this.paymentMethod);
+                add('paid_amount', paidVal);
+                add('change_amount', Math.max(0, paidVal - this.total));
                 this.items.forEach((item, i) => {
                     add(`items[${i}][variant_id]`, item.variant_id);
                     add(`items[${i}][qty]`, item.qty);

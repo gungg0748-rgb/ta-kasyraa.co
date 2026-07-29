@@ -57,6 +57,8 @@ class SaleController extends Controller
         $request->validate([
             'date'               => 'required|date',
             'notes'              => 'nullable|string',
+            'payment_method'     => 'required|in:tunai,transfer,qris',
+            'paid_amount'        => 'required|numeric|min:0',
             'items'              => 'required|array|min:1',
             'items.*.variant_id' => 'required|exists:product_variants,id',
             'items.*.qty'        => 'required|integer|min:1',
@@ -73,10 +75,21 @@ class SaleController extends Controller
             }
         }
 
+        // Hitung total, uang bayar, dan kembalian.
+        $total = collect($request->items)->sum(fn($i) => $i['qty'] * $i['price']);
+        // Non-tunai (transfer/QRIS) dianggap dibayar pas sejumlah total.
+        $paid   = $request->payment_method === 'tunai' ? (float) $request->paid_amount : $total;
+        if ($paid < $total) {
+            return back()->withInput()->withErrors([
+                'paid_amount' => 'Uang bayar kurang dari total penjualan.',
+            ]);
+        }
+        $change = $paid - $total;
+
         // Menjalankan proses simpan penjualan dan pengurangan stok dalam transaksi database.
-        DB::transaction(function () use ($request) {
+        $sale = null;
+        DB::transaction(function () use ($request, $total, $paid, $change, &$sale) {
             $invoice = 'SO-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -5));
-            $total   = collect($request->items)->sum(fn($i) => $i['qty'] * $i['price']);
 
             $sale = Sale::create([
                 'invoice_number' => $invoice,
@@ -84,6 +97,9 @@ class SaleController extends Controller
                 'date'           => $request->date,
                 'notes'          => $request->notes,
                 'total'          => $total,
+                'payment_method' => $request->payment_method,
+                'paid_amount'    => $paid,
+                'change_amount'  => $change,
             ]);
 
             foreach ($request->items as $item) {
@@ -110,7 +126,16 @@ class SaleController extends Controller
             session()->flash('success', "Penjualan #{$sale->invoice_number} berhasil disimpan.");
         });
 
-        return redirect()->route('sales.index');
+        return redirect()->route('sales.show', $sale);
+    }
+
+    /**
+     * Menampilkan struk penjualan yang siap dicetak.
+     */
+    public function receipt(Sale $sale)
+    {
+        $sale->load('items.variant.product', 'user');
+        return view('sales.receipt', compact('sale'));
     }
 
     /**

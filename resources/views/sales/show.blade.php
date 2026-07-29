@@ -34,6 +34,25 @@
                 <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Total</p>
                 <p class="text-3xl font-manrope font-black text-blue-900">Rp {{ number_format($sale->total, 0, ',', '.') }}</p>
             </div>
+            <div class="pt-4 border-t border-slate-100 space-y-2">
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-400 font-medium">Metode</span>
+                    <span class="font-bold text-blue-900 uppercase">{{ $sale->payment_method }}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-400 font-medium">Uang Bayar</span>
+                    <span class="font-bold text-blue-900">Rp {{ number_format($sale->paid_amount, 0, ',', '.') }}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-400 font-medium">Kembalian</span>
+                    <span class="font-bold text-emerald-600">Rp {{ number_format($sale->change_amount, 0, ',', '.') }}</span>
+                </div>
+            </div>
+            <a href="{{ route('sales.receipt', $sale) }}" target="_blank"
+               class="mt-2 flex items-center justify-center gap-2 px-5 py-3 bg-primary text-on-primary rounded-xl font-manrope font-bold text-sm shadow-lg hover:opacity-90 transition-opacity">
+                <span class="material-symbols-outlined text-base">print</span>
+                Cetak Struk
+            </a>
         </div>
 
         {{-- Items --}}
