@@ -33,7 +33,19 @@ class ProductController extends Controller
         $products    = $query->latest('id')->paginate(15)->withQueryString(); // produk terbaru di atas
         $categories  = Category::orderBy('name')->get(); // dropdown filter tetap alfabetis
 
-        return view('products.index', compact('products', 'categories'));
+        // Harga beli = harga dari transaksi Pembelian TERAKHIR (tanpa menyimpan field baru).
+        $lastCost = \Illuminate\Support\Facades\DB::table('purchase_items')
+            ->join('product_variants', 'purchase_items.variant_id', '=', 'product_variants.id')
+            ->join('purchases', 'purchase_items.purchase_id', '=', 'purchases.id')
+            ->whereIn('product_variants.product_id', $products->pluck('id'))
+            ->orderBy('purchases.date', 'desc')
+            ->orderBy('purchases.id', 'desc')
+            ->select('product_variants.product_id', 'purchase_items.price')
+            ->get()
+            ->groupBy('product_id')
+            ->map(fn ($rows) => $rows->first()->price); // baris pertama = pembelian terbaru
+
+        return view('products.index', compact('products', 'categories', 'lastCost'));
     }
 
     /**

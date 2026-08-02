@@ -50,7 +50,8 @@
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Produk (Product)</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Barcode</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Kategori (Category)</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Harga (Price)</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Harga Jual</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Harga Beli</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Varian (Variants)</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Total Stok (Stock)</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi (Actions)</th>
@@ -78,6 +79,13 @@
                     </td>
                     <td class="px-6 py-4 font-manrope font-bold text-blue-900 text-sm">
                         Rp {{ number_format($product->price, 0, ',', '.') }}
+                    </td>
+                    <td class="px-6 py-4 font-manrope font-bold text-sm">
+                        @if(isset($lastCost[$product->id]))
+                            <span class="text-emerald-700">Rp {{ number_format($lastCost[$product->id], 0, ',', '.') }}</span>
+                        @else
+                            <span class="text-slate-300">—</span>
+                        @endif
                     </td>
                     <td class="px-6 py-4 text-sm text-slate-500">{{ $product->variants->count() }} varian</td>
                     <td class="px-6 py-4">
@@ -109,7 +117,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="px-8 py-16 text-center">
+                    <td colspan="8" class="px-8 py-16 text-center">
                         <span class="material-symbols-outlined text-slate-200 text-5xl block mb-3">inventory_2</span>
                         <p class="text-slate-400 text-sm">Belum ada produk.</p>
                     </td>
