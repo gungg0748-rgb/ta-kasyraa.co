@@ -188,6 +188,7 @@ class ProductController extends Controller
     /**
      * Ubah harga beli: update harga item pembelian terakhir produk ini,
      * lalu hitung ulang total transaksi pembelian tersebut.
+     * Kalau belum ada riwayat pembelian, buat transaksi pembelian baru.
      */
     private function updateLastPurchasePrice(Product $product, $newPrice): void
     {
@@ -200,17 +201,52 @@ class ProductController extends Controller
             ->select('purchase_items.id', 'purchase_items.purchase_id', 'purchase_items.price', 'purchase_items.qty')
             ->first();
 
-        if (! $item) {
-            return; // belum pernah dibeli, tidak ada yang diubah
+        if ($item) {
+            // Sudah ada riwayat pembelian — update harga item terakhir.
+            DB::table('purchase_items')->where('id', $item->id)->update(['price' => $newPrice]);
+
+            // Hitung ulang total pembelian dari semua item-nya.
+            $total = DB::table('purchase_items')
+                ->where('purchase_id', $item->purchase_id)
+                ->sum(DB::raw('qty * price'));
+
+            DB::table('purchases')->where('id', $item->purchase_id)->update(['total' => $total]);
+            return;
         }
 
-        DB::table('purchase_items')->where('id', $item->id)->update(['price' => $newPrice]);
+        // Belum pernah dibeli — buat transaksi pembelian baru sebagai catatan harga beli.
+        $variant = $product->variants()->first();
+        if (! $variant) {
+            return; // tidak ada varian, tidak bisa buat pembelian
+        }
 
-        // Hitung ulang total pembelian dari semua item-nya.
-        $total = DB::table('purchase_items')
-            ->where('purchase_id', $item->purchase_id)
-            ->sum(DB::raw('qty * price'));
+        $supplier = \App\Models\Supplier::first();
+        if (! $supplier) {
+            return; // tidak ada supplier
+        }
 
-        DB::table('purchases')->where('id', $item->purchase_id)->update(['total' => $total]);
+        $invoiceNumber = 'PO-' . now()->format('Ymd') . '-HBL' . strtoupper(Str::random(4));
+        while (DB::table('purchases')->where('invoice_number', $invoiceNumber)->exists()) {
+            $invoiceNumber = 'PO-' . now()->format('Ymd') . '-HBL' . strtoupper(Str::random(4));
+        }
+
+        $purchaseId = DB::table('purchases')->insertGetId([
+            'invoice_number' => $invoiceNumber,
+            'supplier_id'    => $supplier->id,
+            'user_id'        => auth()->id() ?? 1,
+            'total'          => $newPrice,
+            'date'           => now()->toDateString(),
+            'created_at'     => now(),
+            'updated_at'     => now(),
+        ]);
+
+        DB::table('purchase_items')->insert([
+            'purchase_id' => $purchaseId,
+            'variant_id'  => $variant->id,
+            'qty'         => 0,
+            'price'       => $newPrice,
+            'created_at'  => now(),
+            'updated_at'  => now(),
+        ]);
     }
 }
