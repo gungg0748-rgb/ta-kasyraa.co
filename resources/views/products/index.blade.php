@@ -52,6 +52,7 @@
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Kategori (Category)</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Harga Jual</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Harga Beli</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Margin (%)</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Varian (Variants)</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Total Stok (Stock)</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Aksi (Actions)</th>
@@ -125,7 +126,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="px-8 py-16 text-center">
+                    <td colspan="9" class="px-8 py-16 text-center">
                         <span class="material-symbols-outlined text-slate-200 text-5xl block mb-3">inventory_2</span>
                         <p class="text-slate-400 text-sm">Belum ada produk.</p>
                     </td>
