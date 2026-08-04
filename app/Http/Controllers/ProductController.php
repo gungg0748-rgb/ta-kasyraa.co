@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
@@ -34,7 +35,7 @@ class ProductController extends Controller
         $categories  = Category::orderBy('name')->get(); // dropdown filter tetap alfabetis
 
         // Harga beli = harga dari transaksi Pembelian TERAKHIR (tanpa menyimpan field baru).
-        $lastCost = \Illuminate\Support\Facades\DB::table('purchase_items')
+        $lastCost = DB::table('purchase_items')
             ->join('product_variants', 'purchase_items.variant_id', '=', 'product_variants.id')
             ->join('purchases', 'purchase_items.purchase_id', '=', 'purchases.id')
             ->whereIn('product_variants.product_id', $products->pluck('id'))
@@ -111,7 +112,11 @@ class ProductController extends Controller
         // Menampilkan form edit produk yang sudah ada.
         $categories = Category::orderBy('name')->get();
         $units      = Unit::orderBy('name')->get();
-        return view('products.edit', compact('product', 'categories', 'units'));
+
+        // Harga beli yang tampil = harga pembelian terakhir produk ini.
+        $lastCost = $this->lastPurchase($product);
+
+        return view('products.edit', compact('product', 'categories', 'units', 'lastCost'));
     }
 
     /**
@@ -128,6 +133,8 @@ class ProductController extends Controller
             'reorder_level' => 'required|integer|min:0',
             'description'   => 'nullable|string',
             'image'         => 'nullable|image|max:2048',
+            // Harga beli (opsional) — kalau diisi, update harga pembelian terakhir.
+            'purchase_price'=> 'nullable|numeric|min:0',
         ]);
 
         $data = $request->only('name', 'category_id', 'unit_id', 'price', 'reorder_level', 'description');
@@ -142,6 +149,11 @@ class ProductController extends Controller
 
         $product->update($data);
 
+        // Update harga beli: langsung ubah item pembelian terakhir produk ini.
+        if ($request->filled('purchase_price')) {
+            $this->updateLastPurchasePrice($product, $request->purchase_price);
+        }
+
         return redirect()->route('products.show', $product)->with('success', 'Produk berhasil diperbarui.');
     }
 
@@ -153,5 +165,52 @@ class ProductController extends Controller
         // Menghapus produk dari database.
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Produk berhasil dihapus.');
+    }
+
+    /**
+     * Harga beli = harga item pembelian TERAKHIR untuk produk ini.
+     * Prioritas: pembelian dengan tanggal terbaru, lalu id terbesar.
+     */
+    private function lastPurchase(Product $product): ?float
+    {
+        $item = DB::table('purchase_items')
+            ->join('product_variants', 'purchase_items.variant_id', '=', 'product_variants.id')
+            ->join('purchases', 'purchase_items.purchase_id', '=', 'purchases.id')
+            ->where('product_variants.product_id', $product->id)
+            ->orderBy('purchases.date', 'desc')
+            ->orderBy('purchases.id', 'desc')
+            ->select('purchase_items.id', 'purchase_items.price')
+            ->first();
+
+        return $item ? (float) $item->price : null;
+    }
+
+    /**
+     * Ubah harga beli: update harga item pembelian terakhir produk ini,
+     * lalu hitung ulang total transaksi pembelian tersebut.
+     */
+    private function updateLastPurchasePrice(Product $product, $newPrice): void
+    {
+        $item = DB::table('purchase_items')
+            ->join('product_variants', 'purchase_items.variant_id', '=', 'product_variants.id')
+            ->join('purchases', 'purchase_items.purchase_id', '=', 'purchases.id')
+            ->where('product_variants.product_id', $product->id)
+            ->orderBy('purchases.date', 'desc')
+            ->orderBy('purchases.id', 'desc')
+            ->select('purchase_items.id', 'purchase_items.purchase_id', 'purchase_items.price', 'purchase_items.qty')
+            ->first();
+
+        if (! $item) {
+            return; // belum pernah dibeli, tidak ada yang diubah
+        }
+
+        DB::table('purchase_items')->where('id', $item->id)->update(['price' => $newPrice]);
+
+        // Hitung ulang total pembelian dari semua item-nya.
+        $total = DB::table('purchase_items')
+            ->where('purchase_id', $item->purchase_id)
+            ->sum(DB::raw('qty * price'));
+
+        DB::table('purchases')->where('id', $item->purchase_id)->update(['total' => $total]);
     }
 }

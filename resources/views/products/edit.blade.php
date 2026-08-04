@@ -44,9 +44,17 @@
 
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Harga Jual (Price) (Rp)</label>
-                    <input type="number" name="price" value="{{ old('price', $product->price) }}" min="0" step="100"
+                    <input type="number" name="price" value="{{ old('price', $product->price) }}" min="0"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20" required>
                     @error('price') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Harga Beli (Purchase Price) (Rp)</label>
+                    <input type="number" name="purchase_price" value="{{ old('purchase_price', $lastCost ?? '') }}" min="0"
+                           class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">
+                    <p class="text-[10px] text-slate-400 mt-1">Harga beli terakhir. Kosongkan bila tidak diubah.</p>
+                    @error('purchase_price') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
