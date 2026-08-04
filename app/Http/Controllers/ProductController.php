@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -74,6 +75,7 @@ class ProductController extends Controller
             'reorder_level' => 'required|integer|min:0',
             'description'   => 'nullable|string',
             'image'         => 'nullable|image|max:2048',
+            'purchase_price'=> 'nullable|numeric|min:0',
         ]);
 
         $barcode = 'KSR-' . strtoupper(Str::random(8));
@@ -85,11 +87,27 @@ class ProductController extends Controller
             ? $request->file('image')->store('products', 'public')
             : null;
 
-        Product::create([
+        $product = Product::create([
             ...$request->only('name', 'category_id', 'unit_id', 'price', 'reorder_level', 'description'),
             'barcode' => $barcode,
             'image'   => $imagePath,
         ]);
+
+        // Simpan harga beli: buat varian default dulu, lalu catat transaksi pembelian dummy.
+        if ($request->filled('purchase_price')) {
+            $variantBarcode = 'KSR-' . strtoupper(Str::random(8));
+            while (ProductVariant::where('barcode', $variantBarcode)->exists()) {
+                $variantBarcode = 'KSR-' . strtoupper(Str::random(8));
+            }
+
+            $product->variants()->create([
+                'model'   => 'Default',
+                'stock'   => 0,
+                'barcode' => $variantBarcode,
+            ]);
+
+            $this->updateLastPurchasePrice($product, $request->purchase_price);
+        }
 
         return redirect()->route('products.index')->with('success', 'Produk berhasil ditambahkan.');
     }
