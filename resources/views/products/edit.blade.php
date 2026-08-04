@@ -62,13 +62,18 @@
 
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
-                        Kalkulator Margin / Keuntungan (%)
+                        Margin Keuntungan (%)
                     </label>
-                    <input type="number" id="calc_margin" value="" min="0" max="999.9" step="0.1" placeholder="misal: 20"
+                    @php
+                        $computedMargin = isset($lastCost) && $lastCost > 0
+                            ? round(($product->price - $lastCost) / $lastCost * 100, 1)
+                            : '';
+                    @endphp
+                    <input type="number" id="calc_margin" value="{{ $computedMargin }}" min="0" max="999.9" step="0.1" placeholder="misal: 20"
                            oninput="calcSellPrice(); document.getElementById('profit_pct').textContent = this.value || '0'"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">
                     <p class="text-[10px] text-slate-400 mt-1">
-                        Harga Jual = Harga Beli + <strong id="profit_pct">0</strong>%
+                        Harga Jual = Harga Beli + <strong id="profit_pct">{{ $computedMargin ?: '0' }}</strong>%
                         <span class="text-primary font-bold" id="profit_hint" style="display:none">→ Rp <span id="profit_result"></span></span>
                     </p>
                 </div>

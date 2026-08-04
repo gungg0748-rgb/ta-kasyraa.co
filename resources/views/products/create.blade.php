@@ -59,7 +59,7 @@
 
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
-                        Kalkulator Margin / Keuntungan (%)
+                        Margin Keuntungan (%)
                     </label>
                     <input type="number" id="calc_margin" value="" min="0" max="999.9" step="0.1" placeholder="misal: 20"
                            oninput="calcSellPrice(); document.getElementById('profit_pct').textContent = this.value || '0'"
