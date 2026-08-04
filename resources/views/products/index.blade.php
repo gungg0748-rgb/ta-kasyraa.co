@@ -87,6 +87,14 @@
                             <span class="text-slate-300">—</span>
                         @endif
                     </td>
+                    <td class="px-6 py-4 font-manrope font-bold text-sm">
+                        @if(isset($lastCost[$product->id]) && $lastCost[$product->id] > 0)
+                            @php $pct = round(($product->price - $lastCost[$product->id]) / $lastCost[$product->id] * 100, 1); @endphp
+                            <span class="{{ $pct >= 0 ? 'text-emerald-600' : 'text-rose-500' }}">{{ $pct }}%</span>
+                        @else
+                            <span class="text-slate-300">—</span>
+                        @endif
+                    </td>
                     <td class="px-6 py-4 text-sm text-slate-500">{{ $product->variants->count() }} varian</td>
                     <td class="px-6 py-4">
                         @if($totalStock == 0)

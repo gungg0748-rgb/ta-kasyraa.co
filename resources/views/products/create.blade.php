@@ -54,11 +54,28 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Harga Beli (Purchase Price) (Rp) <span class="font-normal normal-case tracking-normal">(opsional)</span></label>
-                    <input type="number" name="purchase_price" value="{{ old('purchase_price') }}" min="0"
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
+                        Harga Beli (Purchase Price) (Rp)
+                        <span class="font-normal normal-case tracking-normal">(opsional)</span>
+                    </label>
+                    <input type="number" name="purchase_price" id="purchase_price" value="{{ old('purchase_price') }}" min="0"
+                           oninput="calcSellPrice()"
                            class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">
-                    <p class="text-[10px] text-slate-400 mt-1">Harga beli dari supplier (akan dicatat sebagai riwayat pembelian)</p>
                     @error('purchase_price') <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
+                        Kalkulator Margin / Keuntungan (%)
+                        <span class="font-normal normal-case tracking-normal">(alat bantu)</span>
+                    </label>
+                    <input type="number" id="calc_margin" value="" min="0" max="999.9" step="0.1" placeholder="misal: 20"
+                           oninput="calcSellPrice(); document.getElementById('profit_pct').textContent = this.value || '0'"
+                           class="w-full bg-surface-container-low border-0 rounded-xl text-sm text-blue-900 font-medium focus:ring-2 focus:ring-primary/20">
+                    <p class="text-[10px] text-slate-400 mt-1">
+                        Harga Jual = Harga Beli + <strong id="profit_pct">0</strong>%
+                        <span class="text-primary font-bold" id="profit_hint" style="display:none">→ Rp <span id="profit_result"></span></span>
+                    </p>
                 </div>
 
                 <div>
@@ -99,4 +116,21 @@
             </div>
         </form>
     </div>
+
+    <script>
+        function calcSellPrice() {
+            const beli = parseInt(document.getElementById('purchase_price').value) || 0;
+            const margin = parseFloat(document.getElementById('calc_margin').value) || 0;
+            const hint = document.getElementById('profit_hint');
+            const result = document.getElementById('profit_result');
+            if (beli > 0 && margin > 0) {
+                const jual = beli + Math.round(beli * margin / 100);
+                result.textContent = jual.toLocaleString('id-ID');
+                hint.style.display = 'inline';
+                document.querySelector('[name=price]').value = jual;
+            } else {
+                hint.style.display = 'none';
+            }
+        }
+    </script>
 </x-app-layout>
