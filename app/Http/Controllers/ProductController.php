@@ -176,11 +176,22 @@ class ProductController extends Controller
     }
 
     /**
-     * Menghapus produk dari database.
+     * Menghapus produk dari database. Gagal jika masih ada varian dengan riwayat transaksi.
      */
     public function destroy(Product $product)
     {
-        // Menghapus produk dari database.
+        // Cek apakah ada varian produk yang punya riwayat transaksi
+        $variantIds = $product->variants()->pluck('id');
+
+        $hasPurchases = DB::table('purchase_items')->whereIn('variant_id', $variantIds)->exists();
+        $hasSales     = DB::table('sale_items')->whereIn('variant_id', $variantIds)->exists();
+        $hasReturns   = DB::table('return_items')->whereIn('variant_id', $variantIds)->exists();
+        $hasOpnames   = DB::table('opname_items')->whereIn('variant_id', $variantIds)->exists();
+
+        if ($hasPurchases || $hasSales || $hasReturns || $hasOpnames) {
+            return back()->with('error', 'Produk tidak dapat dihapus karena masih memiliki riwayat transaksi (pembelian/penjualan/return/opname). Hapus dulu varian terkait atau nonaktifkan produk.');
+        }
+
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Produk berhasil dihapus.');
     }
