@@ -19,7 +19,7 @@
                 $variantsData[] = [
                     'id'             => $variant->id,
                     'label'          => $label,
-                    'price'          => $product->price,
+                    'price'          => $variantCosts[$variant->id] ?? 0,
                     'barcode'        => $variant->barcode,
                     'product_barcode'=> $product->barcode,        // barcode produk (fallback)
                 ];

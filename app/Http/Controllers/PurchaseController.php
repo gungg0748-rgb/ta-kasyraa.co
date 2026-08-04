@@ -49,7 +49,18 @@ class PurchaseController extends Controller
         // Menampilkan form buat pembelian baru.
         $suppliers = Supplier::orderBy('name')->get();
         $products  = Product::with('variants')->orderBy('name')->get();
-        return view('purchases.create', compact('suppliers', 'products'));
+
+        // Harga beli terakhir per varian (untuk prefill harga di form)
+        $variantCosts = DB::table('purchase_items')
+            ->join('purchases', 'purchase_items.purchase_id', '=', 'purchases.id')
+            ->orderBy('purchases.date', 'desc')
+            ->orderBy('purchases.id', 'desc')
+            ->select('purchase_items.variant_id', 'purchase_items.price')
+            ->get()
+            ->groupBy('variant_id')
+            ->map(fn ($rows) => (float) $rows->first()->price);
+
+        return view('purchases.create', compact('suppliers', 'products', 'variantCosts'));
     }
 
     /**
