@@ -176,15 +176,14 @@ class ProductController extends Controller
     }
 
     /**
-     * Menghapus produk dari database. Gagal jika sudah ada transaksi nyata
-     * (pembelian qty>0, penjualan, return, atau opname).
-     * Pembelian dummy (qty=0 dari form Tambah Produk) tidak dihitung.
+     * Menghapus produk dari database. Gagal jika sudah ada transaksi nyata.
+     * Data dummy (pembelian qty=0 dari form Tambah Produk) dibersihkan otomatis.
      */
     public function destroy(Product $product)
     {
         $variantIds = $product->variants()->pluck('id');
 
-        // Pembelian: hanya blokir kalau ada qty > 0 (pembelian beneran, bukan dummy)
+        // Blokir kalau ada transaksi nyata (pembelian qty>0, penjualan, return, opname)
         $hasPurchases = DB::table('purchase_items')
             ->whereIn('variant_id', $variantIds)
             ->where('qty', '>', 0)
@@ -198,7 +197,21 @@ class ProductController extends Controller
             return back()->with('error', 'Produk tidak dapat dihapus karena sudah memiliki riwayat transaksi.');
         }
 
-        $product->delete();
+        // Bersihkan data dummy + varian + produk dalam satu transaksi
+        DB::transaction(function () use ($product, $variantIds) {
+            // Hapus purchase_items dummy (qty=0) dan purchase-nya
+            $dummyPurchaseIds = DB::table('purchase_items')
+                ->whereIn('variant_id', $variantIds)
+                ->pluck('purchase_id');
+
+            DB::table('purchase_items')->whereIn('variant_id', $variantIds)->delete();
+            DB::table('purchases')->whereIn('id', $dummyPurchaseIds)->delete();
+
+            // Hapus varian lalu produk
+            $product->variants()->delete();
+            $product->delete();
+        });
+
         return redirect()->route('products.index')->with('success', 'Produk berhasil dihapus.');
     }
 
